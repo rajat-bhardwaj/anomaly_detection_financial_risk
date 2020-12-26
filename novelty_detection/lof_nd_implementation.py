@@ -16,7 +16,8 @@ class lofNoveltyDetection(ModelTrainingData):
 
     def __init__(self):
         super().__init__()
-        self.n_hyperparam = self.model_parameters.get('iForest').get('n_hyperparam')
+        self.n_hyperparam = self.model_parameters.get('iForest').get(
+            'n_hyperparam')
         self.training_data, self.validation_data = self.get_dataset()
 
     def setup_hyper_param_grid(self):
@@ -91,8 +92,8 @@ class lofNoveltyDetection(ModelTrainingData):
             1 - predictions for predictions in scaled_pred_score
         ]
 
-        average_auc, sd_auc = self.compute_pr_auc(
-            y_true, inverted_anomaly_score)
+        average_auc, sd_auc = self.compute_pr_auc(y_true,
+                                                  inverted_anomaly_score)
 
         combination.update({"avg_auc": average_auc, "std_dev_auc": sd_auc})
         gc.collect()
@@ -147,7 +148,7 @@ class lofNoveltyDetection(ModelTrainingData):
             test_df = pd.concat(output_df)
 
         return test_df
-    
+
     def execute_model_lof_nov_detection(self):
 
         ts = datetime.now()
@@ -164,13 +165,15 @@ class lofNoveltyDetection(ModelTrainingData):
         logging.info(
             'Custom logs LOF novelty: Fraction of training dataset for hp tuning = %.5f',
             self.fraction)
-        logging.info('Custom logs LOF novelty: Number of validation samples = %d',
-                     self.n_val_samples)
+        logging.info(
+            'Custom logs LOF novelty: Number of validation samples = %d',
+            self.n_val_samples)
         logging.info(
             'Custom logs LOF novelty: contamination for validation set = %.5f',
             self.contamination)
         logging.info('Custom logs LOF novelty: Initiate model tuning process')
 
-        model_results = self.mp_evaluation_hyperpram(self.training_data, self.validation_data)
-        
+        model_results = self.mp_evaluation_hyperpram(self.training_data,
+                                                     self.validation_data)
+
         return model_results

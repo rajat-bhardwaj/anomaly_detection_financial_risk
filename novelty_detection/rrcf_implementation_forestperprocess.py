@@ -13,13 +13,13 @@ from tf_logger_customised import CustomLogger
 from aml_unsupervised_data_preprocess import ModelTrainingData
 
 
-
 class rrcfMultiProcessForest(ModelTrainingData):
 
     def __init__(self):
-        
+
         super().__init__()
-        self.n_hyperparam = self.model_parameters.get('iForest').get('n_hyperparam')
+        self.n_hyperparam = self.model_parameters.get('rrcf').get(
+            'n_hyperparam')
         self.training_data, self.validation_data = self.get_dataset()
 
     def setup_hyper_param_grid(self):
@@ -37,7 +37,8 @@ class rrcfMultiProcessForest(ModelTrainingData):
         # for rrcf 1/num_samples_per_tree = contamination
         # contamination = proportion of expected outliers in the training data
         param_dist = {
-            "n_estimators": np.linspace(100, 1000, num=self.n_hyperparam).astype('int64')
+            "n_estimators":
+                np.linspace(100, 1000, num=self.n_hyperparam).astype('int64')
         }
 
         return param_dist
@@ -147,13 +148,12 @@ class rrcfMultiProcessForest(ModelTrainingData):
                                                    axis=1)
 
         avg_forest_codisp = avg_forest_codisp.values.reshape(-1, 1)
-        
-        precision, recall, _ = metrics.precision_recall_curve(y_true=y_true,
-                                                  probas_pred=avg_forest_codisp,
-                                                  pos_label=-1)
-        
+
+        precision, recall, _ = metrics.precision_recall_curve(
+            y_true=y_true, probas_pred=avg_forest_codisp, pos_label=-1)
+
         auc_value = metrics.auc(recall, precision)
-        
+
         return auc_value
 
     def train_eval_unit_hp(self, train, validation, n_estimators):
@@ -183,7 +183,7 @@ class rrcfMultiProcessForest(ModelTrainingData):
             self.eval_dataset_perf(val, forest)
             for val in sample_validate_trnsfrm
         ]
-        
+
         # average AUC over all samples
         average_auc = np.mean(result_auc_value)
         sd_auc = np.std(result_auc_value)
@@ -195,13 +195,15 @@ class rrcfMultiProcessForest(ModelTrainingData):
         hp_time = time.time() - model_init_time
 
         temp_results = {
-            'n_estimators':n_estimators,
+            'n_estimators': n_estimators,
             'average_auc': average_auc,
             'sd_auc': sd_auc,
             'training_time': train_time,
             'evaluation_time': eval_samples,
             'hp_eval_time': hp_time
         }
+        
+        gc.collect()
 
         return temp_results
 
@@ -224,22 +226,22 @@ class rrcfMultiProcessForest(ModelTrainingData):
 
         batch_result = [
             pool_2.apply_async(self.train_eval_unit_hp,
-                               args=(train_trnsfrm.copy(), 
-                                     validate_trnsfrm.copy(), 
-                                     n_estimators))
+                               args=(train_trnsfrm.copy(),
+                                     validate_trnsfrm.copy(), n_estimators))
             for n_estimators in param_comb_list.get('n_estimators')
         ]
         try:
             output = [p.get() for p in batch_result]
         except multiprocessing.TimeoutError:
-            logging.error('Custom log rrcf: Process not responding for evaluation')
+            logging.error(
+                'Custom log rrcf: Process not responding for evaluation')
         else:
             logging.info('Custom logs rrcf: computing metrics')
             assert len(output) == self.n_hyperparam
             results = pd.DataFrame(output)
 
         return results
-    
+
     def execute_rrcf(self):
         """
         Runs the model evaluation/ hyper-parameter tuning 
@@ -259,11 +261,12 @@ class rrcfMultiProcessForest(ModelTrainingData):
             self.fraction)
         logging.info('Custom logs rrcf: Number of validation samples = %d',
                      self.n_val_samples)
-        logging.info('Custom logs rrcf: contamination for validation set = %.5f',
-                     self.contamination)
+        logging.info(
+            'Custom logs rrcf: contamination for validation set = %.5f',
+            self.contamination)
         logging.info('Custom logs rrcf: Initiate model tuning process')
 
-        model_results = self.tune_model(self.training_data, 
+        model_results = self.tune_model(self.training_data,
                                         self.validation_data)
 
         return model_results

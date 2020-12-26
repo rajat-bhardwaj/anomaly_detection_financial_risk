@@ -1,0 +1,3 @@
+tensorflow==2.4.0
+ray==0.8.7
+rrcf

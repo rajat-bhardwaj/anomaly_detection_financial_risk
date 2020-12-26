@@ -18,25 +18,26 @@ class ModelTrainingData():
         self.rng = np.random.RandomState(42)
         self.n_val_samples = self.model_parameters.get('training').get(
             'n_val_samples')
-        self.observed_contamination = 0
         self.fraction = self.model_parameters.get('training').get(
             'train_frac_hp_tuning')
-        self.n_processes = self.model_parameters.get('training').get('n_processes')
+        self.n_processes = self.model_parameters.get('training').get(
+            'n_processes')
         self.contamination = self.model_parameters.get('training').get(
             'contamination')
         self.label = -1
-        
+
     def get_dataset(self):
         """
         Read the data from the csv files
         """
-        
-        train = pd.read_csv(os.path.join(self.path, 'data/sample_train.csv'), header=None)
-        dev = pd.read_csv(os.path.join(self.path, 'data/sample_dev.csv'), header=None)
+
+        train = pd.read_csv(os.path.join(self.path, 'data/sample_train.csv'),
+                            header=None)
+        dev = pd.read_csv(os.path.join(self.path, 'data/sample_dev.csv'),
+                          header=None)
         dev.rename(columns={264: 'label'}, inplace=True)
-        
+
         return train, dev
-        
 
     def val_contamination_sample(self, validation_data):
         """
@@ -57,12 +58,13 @@ class ModelTrainingData():
 
         # 2. add labelled data samples to ensure the contamination
         # generate samples of labelled/positive
-        sample_labels = labelled.sample(frac=1, replace=True, random_state=self.rng)
+        sample_labels = labelled.sample(frac=1,
+                                        replace=True,
+                                        random_state=self.rng)
 
         # contamination = labelled/unlabelled
-        n_label_datapoints = int(
-            labelled.shape[0] /
-            self.contamination) if int(labelled.shape[0] / self.contamination) > 0 else 1
+        n_label_datapoints = int(labelled.shape[0] / self.contamination) if int(
+            labelled.shape[0] / self.contamination) > 0 else 1
 
         # generate samples of unlabelled/negative validation data
         sample_unlabelled = unlabelled.sample(n=n_label_datapoints,
@@ -84,7 +86,8 @@ class ModelTrainingData():
         """
 
         output = []
-        n_rep = int(self.n_val_samples / 4) if int(self.n_val_samples / 4) > 0 else 1
+        n_rep = int(self.n_val_samples /
+                    4) if int(self.n_val_samples / 4) > 0 else 1
 
         rkf = RepeatedStratifiedKFold(n_splits=2,
                                       n_repeats=n_rep,
@@ -98,7 +101,7 @@ class ModelTrainingData():
             output.extend([X_train, X_test])
 
         return output
-    
+
     def compute_pr_auc(self, y_true, pred_score):
         """
         Computes the Precision, Recall AUC value for the given input

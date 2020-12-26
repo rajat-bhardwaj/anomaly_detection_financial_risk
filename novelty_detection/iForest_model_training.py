@@ -14,11 +14,12 @@ from tf_logger_customised import CustomLogger
 class IforestAlgorithm(ModelTrainingData):
 
     def __init__(self):
-        
+
         super().__init__()
-        self.n_hyperparam = self.model_parameters.get('iForest').get('n_hyperparam')
+        self.n_hyperparam = self.model_parameters.get('iForest').get(
+            'n_hyperparam')
         self.training_data, self.validation_data = self.get_dataset()
-              
+
     def setup_hyper_param_grid(self):
         """
         This function randomly selects `n` hyper paramters.
@@ -104,8 +105,8 @@ class IforestAlgorithm(ModelTrainingData):
         ]
 
         # performance measure using AUC for fpr and tpr
-        average_auc, sd_auc = self.compute_pr_auc(
-            y_true, inverted_anomaly_score)
+        average_auc, sd_auc = self.compute_pr_auc(y_true,
+                                                  inverted_anomaly_score)
 
         combination.update({"avg_auc": average_auc, "std_dev_auc": sd_auc})
 
@@ -163,7 +164,7 @@ class IforestAlgorithm(ModelTrainingData):
             test_df = pd.concat(output_df)
 
         return test_df
-    
+
     def execute_model_iForest(self):
 
         ts = datetime.now()
@@ -180,11 +181,12 @@ class IforestAlgorithm(ModelTrainingData):
             self.fraction)
         logging.info('Custom logs iForest: Number of validation samples = %d',
                      self.n_val_samples)
-        logging.info('Custom logs iForest: contamination for validation set = %.5f',
-                     self.contamination)
+        logging.info(
+            'Custom logs iForest: contamination for validation set = %.5f',
+            self.contamination)
         logging.info('Custom logs iForest: Initiate model tuning process')
 
-        model_results = self.mp_evaluation_hyperpram(self.training_data, 
+        model_results = self.mp_evaluation_hyperpram(self.training_data,
                                                      self.validation_data)
 
         return model_results
