@@ -13,7 +13,7 @@ It contains python implementation of the following four models. It uses python m
 3. LOF (local outlier factor)
 4. Autoencoders implemented via. Tensorflow
 
-The implementation uses 8 different configurations available in `auen_model_configuration.json` file. Each of these models/configurations can use further `n` hyper-parameter evaluations> This can be configured in `training_config.json` file under `autoencoders`.
+The implementation uses 8 different configurations available in `auen_model_configuration.json` file. Each of these models/configurations can use further `n` hyper-parameter evaluations. This can be configured in `training_config.json` file under `autoencoders`.
 
 
 Few notes:
