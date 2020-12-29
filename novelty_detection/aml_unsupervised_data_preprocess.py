@@ -117,7 +117,7 @@ class ModelTrainingData():
         precision_recall_curve_list = [
             metrics.precision_recall_curve(y_true=y_true[i],
                                            probas_pred=pred_score[i],
-                                           pos_label=-1)
+                                           pos_label=self.label)
             for i in range(0, self.n_val_samples)
         ]
         auc_value = [

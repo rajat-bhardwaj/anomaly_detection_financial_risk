@@ -128,7 +128,7 @@ class rrcfMultiProcessForest(ModelTrainingData):
 
     def eval_dataset_perf(self, val, forest):
         """
-        This function evaluates the performance of model (forest) 
+        This function evaluates the performance of model (forest)
         on the single validation dataset.
 
         Args:
@@ -173,6 +173,10 @@ class rrcfMultiProcessForest(ModelTrainingData):
 
         eval_init_time = time.time()
         sample_validate_trnsfrm = self.stratified_val_samples(validation)
+        # re index the validation dataset:
+        # the tree identifies a data point using the index
+        # if the train and validation/dev/test set have the same index
+        # the model will throw an error
         sample_validate_trnsfrm = [
             sample.set_index(np.random.rand(sample.shape[0]))
             for sample in sample_validate_trnsfrm
@@ -202,7 +206,7 @@ class rrcfMultiProcessForest(ModelTrainingData):
             'evaluation_time': eval_samples,
             'hp_eval_time': hp_time
         }
-        
+
         gc.collect()
 
         return temp_results
@@ -244,7 +248,7 @@ class rrcfMultiProcessForest(ModelTrainingData):
 
     def execute_rrcf(self):
         """
-        Runs the model evaluation/ hyper-parameter tuning 
+        Runs the model evaluation/ hyper-parameter tuning
         for Robust random cut forest model
         """
         ts = datetime.now()

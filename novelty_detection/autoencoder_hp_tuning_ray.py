@@ -82,8 +82,7 @@ class TestClassRayImpln:
         validation_data.rename(columns={264: 'label'}, inplace=True)
         validation_data['label'] = validation_data.label.astype(np.int16)
 
-        val_sample = self.ref_data.val_contamination_sample(
-            validation_data)
+        val_sample = self.ref_data.val_contamination_sample(validation_data)
 
         return val_sample
 
@@ -99,10 +98,11 @@ class TestClassRayImpln:
             'epochs':
                 np.linspace(20, 100, num=10).astype('int64'),
             'batch_size': [64, 128, 256, 512],
+            # l2 regularization
             'activation_reg':
                 np.linspace(0.01, 0.0001, num=10).astype(np.float32),
             'leakyalpha':
-                np.linspace(0.05, 0.3, num=10).astype(np.float64),
+                np.linspace(0.01, 0.3, num=10).astype(np.float64),
         }
 
         param_list = list(
@@ -194,8 +194,7 @@ class TestClassRayImpln:
         logging.info('Custom logs AEN: configure tensorboard path')
 
         run_name = 'e_{}_b_{}_a_{}_la{}_'.format(
-            hyperparameters.get('epochs'),
-            hyperparameters.get('batch_size'),
+            hyperparameters.get('epochs'), hyperparameters.get('batch_size'),
             str(hyperparameters.get('activation_reg'))[0:5],
             str(hyperparameters.get('leakyalpha'))[0:5])
 
