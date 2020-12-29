@@ -1,0 +1,24 @@
+{
+  "iForest": {
+    "n_hyperparam": 8
+  },
+  "lof_nd": {
+    "n_hyperparam": 8
+  },
+  "rrcf": {
+    "n_hyperparam": 8
+  },
+  "autoencoders": {
+    "n_hyperparam": 1,
+    "learning_rate": 0.0001,
+    "logs_base_dir": "../tensor_logs"
+  },
+  "training": {
+    "n_val_samples": 12,
+    "train_frac_hp_tuning": 1.0,
+    "n_processes": 7,
+    "contamination": 0.001,
+    "path_trainset": "data/sample_trainset.csv",
+    "path_devset": "data/sample_devset.csv"
+  }
+}

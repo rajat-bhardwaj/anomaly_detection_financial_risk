@@ -1,0 +1,210 @@
+{
+  "model-relu": [
+    {
+      "name": "encoder-1",
+      "activation": "relu",
+      "activity_regularizer": 0.1,
+      "units": 128
+    },
+    {
+      "name": "bottleneck",
+      "activation": "relu",
+      "activity_regularizer": 0.1,
+      "units": 64
+    },
+    {
+      "name": "decoder-1",
+      "activation": "relu",
+      "activity_regularizer": 0.1,
+      "units": 128
+    },
+    {
+      "name": "output"
+    }
+  ],
+  "model-relu-deep": [
+    {
+      "name": "encoder-1",
+      "activation": "relu",
+      "activity_regularizer": 0.1,
+      "units": 128
+    },
+    {
+      "name": "encoder-2",
+      "activation": "relu",
+      "activity_regularizer": 0.1,
+      "units": 64
+    },
+    {
+      "name": "bottleneck",
+      "activation": "relu",
+      "activity_regularizer": 0.1,
+      "units": 32
+    },
+    {
+      "name": "decoder-1",
+      "activation": "relu",
+      "activity_regularizer": 0.1,
+      "units": 64
+    },
+    {
+      "name": "decoder-2",
+      "activation": "relu",
+      "activity_regularizer": 0.1,
+      "units": 128
+    },
+    {
+      "name": "output"
+    }
+  ],
+  "model-tanh": [
+    {
+      "name": "encoder-1",
+      "activation": "tanh",
+      "activity_regularizer": 0.1,
+      "units": 128
+    },
+    {
+      "name": "bottleneck",
+      "activation": "tanh",
+      "activity_regularizer": 0.1,
+      "units": 64
+    },
+    {
+      "name": "decoder-1",
+      "activation": "tanh",
+      "activity_regularizer": 0.1,
+      "units": 128
+    },
+    {
+      "name": "output"
+    }
+  ],
+  "model-tanh-deep": [
+    {
+      "name": "encoder-1",
+      "activation": "tanh",
+      "activity_regularizer": 0.1,
+      "units": 128
+    },
+    {
+      "name": "encoder-2",
+      "activation": "tanh",
+      "activity_regularizer": 0.1,
+      "units": 64
+    },
+    {
+      "name": "bottleneck",
+      "activation": "tanh",
+      "activity_regularizer": 0.1,
+      "units": 32
+    },
+    {
+      "name": "decoder-1",
+      "activation": "tanh",
+      "activity_regularizer": 0.1,
+      "units": 64
+    },
+    {
+      "name": "decoder-2",
+      "activation": "tanh",
+      "activity_regularizer": 0.1,
+      "units": 128
+    },
+    {
+      "name": "output"
+    }
+  ],
+  "model-leakyrelu": [
+    {
+      "name": "encoder-1",
+      "units": 128
+    },
+    {
+      "name": "bottleneck",
+      "units": 64
+    },
+    {
+      "name": "decoder-1",
+      "units": 128
+    },
+    {
+      "name": "output"
+    }
+  ],
+  "model-leakyrelu-deep": [
+    {
+      "name": "encoder-1",
+      "units": 128
+    },
+    {
+      "name": "encoder-2",
+      "units": 64
+    },
+    {
+      "name": "bottleneck",
+      "units": 32
+    },
+    {
+      "name": "decoder-1",
+      "units": 64
+    },
+    {
+      "name": "decoder-2",
+      "units": 128
+    },
+    {
+      "name": "output"
+    }
+  ],
+  "model-leakyrelu-reg": [
+    {
+      "name": "encoder-1",
+      "activity_regularizer": 0.1,
+      "units": 128
+    },
+    {
+      "name": "bottleneck",
+      "activity_regularizer": 0.1,
+      "units": 64
+    },
+    {
+      "name": "decoder-1",
+      "activity_regularizer": 0.1,
+      "units": 128
+    },
+    {
+      "name": "output"
+    }
+  ],
+  "model-leakyrelu-deep-reg": [
+    {
+      "name": "encoder-1",
+      "activity_regularizer": 0.1,
+      "units": 128
+    },
+    {
+      "name": "encoder-2",
+      "activity_regularizer": 0.1,
+      "units": 64
+    },
+    {
+      "name": "bottleneck",
+      "activity_regularizer": 0.1,
+      "units": 32
+    },
+    {
+      "name": "decoder-1",
+      "activity_regularizer": 0.1,
+      "units": 64
+    },
+    {
+      "name": "decoder-2",
+      "activity_regularizer": 0.1,
+      "units": 128
+    },
+    {
+      "name": "output"
+    }
+  ]
+}
